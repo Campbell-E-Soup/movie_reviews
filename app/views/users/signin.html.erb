@@ -1,0 +1,24 @@
+<div class="container mt-5" style="max-width: 400px;">
+  <div class="card shadow rounded">
+    <div class="card-body">
+      <h3 class="card-title text-center mb-4">Sign In</h3>
+      <%= form_with url: users_signin_path, method: :post, local: true do |form| %>
+        <div class="mb-3">
+          <%= form.label :username, class: "form-label" %>
+          <%= form.text_field :username, class: "form-control", required: true %>
+        </div>
+        <div class="mb-3">
+          <%= form.label :password, class: "form-label" %>
+          <%= form.password_field :password, class: "form-control", required: true %>
+        </div>
+        <div class="d-grid">
+          <%= form.submit "Sign In", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+      <p class="text-center mt-3 mb-0">
+        Don't have an account? 
+        <%= link_to "Sign Up", users_signup_path, class: "text-decoration-none" %>
+      </p>
+    </div>
+  </div>
+</div>

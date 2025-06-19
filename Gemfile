@@ -61,3 +61,13 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "image_processing", "~> 1.14"
+gem "mini_magick", "~> 5.2"
+
+# Bootstrap
+gem "bootstrap", "~> 5.3"
+gem "sassc-rails"
+
+# Auth with Devise
+gem 'devise'
