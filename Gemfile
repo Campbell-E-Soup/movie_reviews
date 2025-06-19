@@ -71,3 +71,5 @@ gem "sassc-rails"
 
 # Auth with Devise
 gem 'devise'
+
+gem 'bcrypt', '~> 3.1.7'
