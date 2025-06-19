@@ -24,7 +24,7 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">boxedlettr</a>
+        <%= link_to "boxedlettr", root_path, class: "navbar-brand" %>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
           aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -38,10 +38,6 @@
                 </a>
               </li>
             <% end %>
-            <li class="nav-item">
-              <%= link_to "Home", root_path, class: "nav-link #{current_page?(root_path) ? 'active' : ''}", 
-                "aria-current": (current_page?(root_path) ? "page" : nil) %>
-            </li>
             <li class="nav-item">
               <a class="nav-link">About</a>
             </li>
