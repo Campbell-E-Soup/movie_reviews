@@ -22,7 +22,7 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-1">
       <div class="container-fluid">
         <%= link_to "boxedlettr", root_path, class: "navbar-brand" %>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -33,7 +33,7 @@
           <ul class="navbar-nav ms-auto">
             <% if user_signed_in? %>
               <li class="nav-item">
-                <a class="nav-link disabled text-primary" href="#" tabindex="-1" aria-disabled="true">
+                <a class="nav-link text-primary" href="<%= user_path(current_user) %>">
                   <strong><%= current_user.username %></strong>
                 </a>
               </li>
@@ -59,8 +59,20 @@
         </div>
       </div>
     </nav>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-    <%= yield %>
+
+    <div class="container my-4">
+      <% if notice %>
+        <div class="alert alert-primary text-white rounded shadow-sm bg-primary mb-2" role="alert">
+            <%= notice %>
+          </div>
+        <% end %>
+
+      <% if alert %>
+        <div class="alert alert-danger text-white rounded shadow-sm bg-danger mb-2" role="alert">
+          <%= alert %>
+        </div>
+      <% end %>
+      <%= yield %>
+    </div>
   </body>
 </html>

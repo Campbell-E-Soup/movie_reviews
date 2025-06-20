@@ -5,4 +5,14 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates :username, presence: true
+
+  def to_param
+    username
+  end
+
+  before_create :set_join_date
+
+  def set_join_date
+    self.join_date ||= Date.today
+  end
 end
