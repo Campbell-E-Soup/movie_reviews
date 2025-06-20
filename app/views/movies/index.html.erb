@@ -1,0 +1,19 @@
+<div class="container mt-4">
+  <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
+    <% @movies.each do |movie| %>
+      <div class="col">
+        <div class="h-100 border-0 shadow rounded">
+          <% if movie.poster.attached? %>
+            <%= link_to movie_path(movie) do %>
+                <%= image_tag movie.poster.variant(resize_to_limit: [192, 288]), class: "card-img-top", alt: "#{movie.name} Poster" %>
+            <% end %>
+          <% else %>
+            <div class="bg-secondary text-white text-center d-flex align-items-center justify-content-center" style="height: 288px;">
+              No Image
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

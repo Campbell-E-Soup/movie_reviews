@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  #get "users/sign_up", to: "users#sign_up", as: "users_signup"
   get "users/logout", to: "users#logout", as: "logout"
 
   devise_for :users
@@ -7,4 +6,6 @@ Rails.application.routes.draw do
   root "home#index"
 
   resources :users, param: :username, only: [:show]
+  resources :movies, param: :name, only: [:show]
+  resources :movies, only: [:index]
 end

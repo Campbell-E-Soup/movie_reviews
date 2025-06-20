@@ -1,0 +1,23 @@
+<div class="container mt-4">
+  <div class="card p-3 shadow">
+    <div class="row g-3 align-items-start">
+      
+      <!-- Poster -->
+      <div class="col-auto">
+        <% if @movie.poster.attached? %>
+          <%= image_tag @movie.poster.variant(resize_to_limit: [192, 288]), class: "border shadow", alt: "Movie Poster" %>
+        <% else %>
+          <%= image_tag 'placeholder.png', size: "192x288", class: "border shadow", alt: "No Poster Available" %>
+        <% end %>
+      </div>
+
+      <!-- Name and Release Year and Desc -->
+      <div class="col align-self-start">
+        <h1 class="mb-2 fw-bold"><%= @movie.name %></h2>
+        <h3 class="text-muted mb-1">(<%= @movie.release_year if @movie.release_year %>)</h3>
+        <h5 class="text-muted mb-0"> <%= @movie.description if @movie.description %> </h5>
+      </div>
+
+    </div>
+  </div>
+</div>
