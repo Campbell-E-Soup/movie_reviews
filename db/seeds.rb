@@ -3,7 +3,7 @@ Genre.destroy_all
 
 
 # Create genres
-genres = %w[Action Comedy Drama Horror Sci-Fi Fantasy].map do |name|
+genres = %w[Action Comedy Drama Horror Sci-Fi Fantasy Romance].map do |name|
   Genre.create!(name: name)
 end
 
@@ -24,7 +24,10 @@ movies = [
   { name: "Battlefield Earth", description: "It's the year 3000 A.D., and the Earth is lost to the alien race of Psychlos. Humanity is enslaved by these gold-thirsty tyrants, who are unaware that their 'man-animals' are about to ignite the rebellion of a lifetime.", release_year: 2000, genre_names: ["Action","Sci-Fi"], poster: "battlefieldearth.jpg" },
   { name: "The Count of Monte Cristo", description: 'A young man, falsely imprisoned by his jealous "friend", escapes and uses a hidden treasure to exact his revenge.', release_year: 2002, genre_names: ["Drama"], poster: "countofmontecristo.jpg" },
   { name: "The Avengers", description: "Earth's mightiest heroes must come together and learn to fight as a team if they are going to stop the mischievous Loki and his alien army from enslaving humanity.", release_year: 2012, genre_names: ["Action","Sci-Fi"], poster: "avengers.jpg" },
-  { name: "Nope", description: "The residents of a lonely gulch in inland California bear witness to an uncanny and chilling phenomenon.", release_year: 2022, genre_names: ["Horror","Sci-Fi"], poster: "nope.jpg" }
+  { name: "Nope", description: "The residents of a lonely gulch in inland California bear witness to an uncanny and chilling phenomenon.", release_year: 2022, genre_names: ["Horror","Sci-Fi"], poster: "nope.jpg" },
+  { name: "Iron Man", description: "After being held captive in an Afghan cave, billionaire engineer Tony Stark creates a unique weaponized suit of armor to fight evil.", release_year: 2008, genre_names: ["Action","Sci-Fi"], poster: "ironman.jpg" },
+  { name: "The Holiday", description: "Amanda lives in LA and is a movie trailer editor. Iris lives in Surrey and is a journalist. The two decide to swap houses for two weeks at Christmas - both trying to forget their troubled love lives, until love finds them anyways.", release_year: 2006, genre_names: ["Romance","Comedy"], poster: "theholiday.jpg" },
+  { name: "The Lord of the Rings: The Return of the King", description: "Gandalf and Aragorn lead the World of Men against Sauron's army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.", release_year: 2003, genre_names: ["Fantasy","Action"], poster: "lotrreturnoftheking.jpg" }
 ]
 
 movies.each do |movie_data|

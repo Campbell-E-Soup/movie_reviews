@@ -5,7 +5,7 @@
         <div class="h-100 border-0 shadow rounded">
           <% if movie.poster.attached? %>
             <%= link_to movie_path(movie) do %>
-                <%= image_tag movie.poster.variant(resize_to_limit: [192, 288]), class: "card-img-top", alt: "#{movie.name} Poster" %>
+                <%= image_tag movie.poster.variant(resize_to_limit: [192, 288]), class: "card-img-top rounded", alt: "#{movie.name} Poster" %>
             <% end %>
           <% else %>
             <div class="bg-secondary text-white text-center d-flex align-items-center justify-content-center" style="height: 288px;">

@@ -1,0 +1,17 @@
+<h1>Write a Review for <%= @movie.name %></h1>
+
+<%= form_with model: @review, url: reviews_path, local: true do |f| %>
+  <%= f.hidden_field :movie_id, value: @movie.id %>
+
+  <div class="mb-3">
+    <%= f.label :rating %>
+    <%= f.number_field :rating, step: 0.1, class: "form-control", required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :text, "Your Review" %>
+    <%= f.text_area :text, rows: 4, class: "form-control" %>
+  </div>
+
+  <%= f.submit "Submit Review", class: "btn btn-primary" %>
+<% end %>
