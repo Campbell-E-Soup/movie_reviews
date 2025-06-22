@@ -4,8 +4,13 @@
   <%= f.hidden_field :movie_id, value: @movie.id %>
 
   <div class="mb-3">
-    <%= f.label :rating %>
-    <%= f.number_field :rating, step: 0.1, class: "form-control", required: true %>
+    <%= f.label :rating %><br>
+    <div class="star-rating d-flex flex-row-reverse justify-content-end">
+      <% (1..5).reverse_each do |i| %>
+        <%= f.radio_button :rating, i, id: "star#{i}", class: "d-none" %>
+        <label for="star<%= i %>" class="star">&#9733;</label>
+      <% end %>
+    </div>
   </div>
 
   <div class="mb-3">

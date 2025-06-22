@@ -37,7 +37,7 @@
 
       <p class="text-center mt-3 mb-0">
         Already have an account? 
-        <%= link_to "Sign In", new_user_session_path, class: "text-decoration-none" %>
+        <%= link_to "Sign In", new_user_session_path(return_to: params[:return_to]), class: "text-decoration-none" %>
       </p>
     </div>
   </div>

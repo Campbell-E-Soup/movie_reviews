@@ -1,5 +1,5 @@
 <div class="container mt-4">
-  <div class="card p-3 shadow">
+  <div class="card p-3 pt-2 shadow mb-3">
     <div class="row g-3 align-items-start">
       
      <div class="row flex-column flex-md-row g-3 align-items-start">
@@ -20,10 +20,46 @@
           <% if user_signed_in? %>
             <%= link_to "Write a Review", compose_reviews_path(@movie.name), class: "btn btn-primary d-inline-block" %>
           <% else %>
-            <%= link_to "Log in to write a review", new_user_session_path, class: "btn btn-outline-secondary mt-3 d-inline-block" %>
+            <%= link_to "Log in to write a review", new_user_session_path(return_to: request.fullpath), class: "btn btn-outline-secondary mt-3 d-inline-block" %>
           <% end %>
         </div>
       </div>
     </div>
+  </div>
+  <div>
+    <!-- The Reviews -->
+      <% @reviews.each do |review| %>
+        <div class="card p-3 shadow mb-2">
+          <div class="row g-3">
+            <div class="col-auto">
+              <% if review.user.profile_picture.attached? %>
+                <%= image_tag review.user.profile_picture.variant(resize_to_limit: [64, 64]), class: "rounded-circle border", alt: "Profile Picture" %>
+              <% else %>
+                <%= image_tag 'pfp.png', alt: 'Profile Picture', size: "64x64", class: "rounded-circle border" %>
+              <% end %>
+            </div>
+            <div class="col mb-1">
+              <a class="nav-link p-0 text-dark text-decoration-none" href="<%= user_path(review.user) %>">
+                <h3 class="mb-0"><%= review.user.username %></h3>
+              </a>
+              <div class="review-rating" style="font-size: 1.5rem; line-height: 1;">
+                <% full_stars = review.rating.to_i %>
+                <% empty_stars = 5 - full_stars %>
+
+                <% full_stars.times do %>
+                  <span class="text-warning">&#9733;</span>
+                <% end %>
+
+                <% empty_stars.times do %>
+                  <span class="text-secondary">&#9733;</span>
+                <% end %>
+              </div>
+            </div>
+            <div>
+              <h5 class="text-muted"><%= review.text if review.text %></h5>
+            </div>
+          </div>
+        </div>
+      <% end %>
   </div>
 </div>

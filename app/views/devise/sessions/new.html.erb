@@ -18,7 +18,7 @@
 
       <p class="text-center mt-3 mb-0">
         Already have an account? 
-        <%= link_to 'Sign Up', new_user_registration_path %>
+        <%= link_to "Sign up", new_user_registration_path(return_to: params[:return_to]), class: "text-decoration-none" %>
       </p>
     </div>
   </div>

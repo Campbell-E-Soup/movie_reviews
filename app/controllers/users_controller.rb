@@ -10,6 +10,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find_by!(username: params[:username])
+    @reviews = Review.where(user_id: @user.id).includes(:movie).order(created_at: :desc)
   end
 
   rescue_from ActiveRecord::RecordNotFound, with: :render_user_not_found

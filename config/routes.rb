@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
-  get "users/logout", to: "users#logout", as: "logout"
+  devise_for :users, controllers: {
+    sessions: 'users/sessions',
+    registrations: 'users/registrations'
+  }
 
-  devise_for :users
+  get "users/logout", to: "users#logout", as: "logout"
   
   root "home#index"
 
@@ -14,5 +17,4 @@ Rails.application.routes.draw do
       get 'compose/:name', to: 'reviews#compose', as: :compose
     end
   end
-
 end

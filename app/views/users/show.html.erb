@@ -1,5 +1,5 @@
 <div class="container mt-4">
-  <div class="card p-3 shadow-sm">
+  <div class="card p-3 mb-2 shadow-sm">
     <div class="row g-3 align-items-center">
       
       <!-- Profile Picture -->
@@ -19,4 +19,59 @@
 
     </div>
   </div>
+  <% @reviews.each do |review| %>
+        <div class="card p-3 pt-2 shadow mb-3">
+            <div class="row g-3 align-items-start">
+                <div class="row flex-column flex-md-row g-3 align-items-start">
+                    <!-- Poster -->
+                    <div class="col-auto">
+                        <% if review.movie.poster.attached? %>
+                            <%= image_tag review.movie.poster.variant(resize_to_limit: [128, 192]), class: "border shadow", alt: "Movie Poster" %>
+                        <% else %>
+                            <%= image_tag 'placeholder.png', size: "128x192", class: "border shadow", alt: "No Poster Available" %>
+                        <% end %>
+                    </div>
+                    <!-- Movie Details -->
+                    <div class="col">
+                        <!-- The Review -->
+                         <div class="row g-3">
+                            <div class="col-auto">
+                                <% if @user.profile_picture.attached? %>
+                                    <%= image_tag review.user.profile_picture.variant(resize_to_limit: [64, 64]), class: "rounded-circle border", alt: "Profile Picture" %>
+                                <% else %>
+                                    <%= image_tag 'pfp.png', alt: 'Profile Picture', size: "64x64", class: "rounded-circle border" %>
+                                <% end %>
+                                </div>
+                                <div class="col mb-1">
+                                <h3 class="mb-0">
+                                    <a class="nav-link d-inline p-0 text-dark d-inline-block" href="<%= user_path(review.user) %>">
+                                        <%= @user.username %>
+                                    </a>
+                                    <span>reviewed</span>
+                                    <a class="nav-link d-inline p-0 text-primary d-inline-block" href="<%= movie_path(review.movie) %>">
+                                        <%= review.movie.name %>
+                                    </a>
+                                </h3>
+                                <div class="review-rating" style="font-size: 1.5rem; line-height: 1;">
+                                    <% full_stars = review.rating.to_i %>
+                                    <% empty_stars = 5 - full_stars %>
+
+                                    <% full_stars.times do %>
+                                    <span class="text-warning">&#9733;</span>
+                                    <% end %>
+
+                                    <% empty_stars.times do %>
+                                    <span class="text-secondary">&#9733;</span>
+                                    <% end %>
+                                </div>
+                            </div>
+                            <div>
+                                <h5 class="text-muted"><%= review.text if review.text %></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+  <% end %>
 </div>
