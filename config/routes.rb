@@ -14,10 +14,12 @@ Rails.application.routes.draw do
   end
   resources :movies, param: :name, only: [:show]
   resources :movies, only: [:index]
+  get "movies/genre/:genre_name", to: "movies#index", as: "genre_movies"
 
-  resources :reviews, only: [:create] do
+  resources :reviews, only: [:create, :update, :show] do
     collection do
       get 'compose/:name', to: 'reviews#compose', as: :compose
+      get 'edit/:name', to: 'reviews#edit_by_movie', as: :edit_by_movie
     end
   end
 end

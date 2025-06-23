@@ -1,14 +1,14 @@
-<h1>Write a Review for <%= @movie.name %></h1>
+<h1><%= @review.persisted? ? "Edit Your Review for" : "Write a Review for" %> <%= @movie.name %></h1>
 
-<%= form_with model: @review, url: reviews_path, local: true do |f| %>
+<%= form_with model: @review, url: @review.persisted? ? review_path(@review) : reviews_path, method: @review.persisted? ? :patch : :post, local: true do |f| %>
   <%= f.hidden_field :movie_id, value: @movie.id %>
 
   <div class="mb-3">
     <%= f.label :rating %><br>
     <div class="star-rating d-flex flex-row-reverse justify-content-end">
       <% (1..5).reverse_each do |i| %>
-        <%= f.radio_button :rating, i, id: "star#{i}", class: "d-none" %>
-        <label for="star<%= i %>" class="star">&#9733;</label>
+        <%= f.radio_button :rating, i, id: "star#{i}", class: "d-none", checked: @review.rating == i %>
+        <label for="star<%= i %>" class="star" data-value="<%= i %>">&#9733;</label>
       <% end %>
     </div>
   </div>
@@ -18,5 +18,5 @@
     <%= f.text_area :text, rows: 4, class: "form-control" %>
   </div>
 
-  <%= f.submit "Submit Review", class: "btn btn-primary" %>
+  <%= f.submit @review.persisted? ? "Update Review" : "Submit Review", class: "btn btn-primary" %>
 <% end %>

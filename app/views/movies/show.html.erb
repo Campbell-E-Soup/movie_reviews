@@ -14,10 +14,22 @@
 
       <!-- Name and Release Year and Desc -->
         <div class="col">
-          <h1 class="mb-2 fw-bold"><%= @movie.name %></h1>
-          <h3 class="text-muted mb-1">(<%= @movie.release_year if @movie.release_year %>)</h3>
-          <h5 class="text-muted mb-2"><%= @movie.description if @movie.description %></h5>
-          <div class="review-rating mt-1" style="font-size: 1.5rem; line-height: 1;">
+          <!-- Name -->
+            <h1 class="mb-0 fw-bold"><%= @movie.name %></h1>
+          <!-- Release Year -->
+            <h3 class="text-muted mb-2">(<%= @movie.release_year if @movie.release_year %>)</h3>
+          <!-- Genres -->
+            <div class="mb-1 d-flex flex-wrap gap-2">
+              <% @movie.genres.each do |genre| %>
+                <%= link_to genre.name, genre_movies_path(genre_name: genre.name), class: "btn btn-outline-dark btn-sm-tag" %>
+              <% end %>
+            </div>
+          <!-- Desc -->
+            <h5 class="text-muted mb-2"><%= @movie.description if @movie.description %></h5>
+          <!-- The Reviews -->
+        <div class="d-flex align-items-center gap-3 mt-1">
+          <!-- Star Rating -->
+            <div class="review-rating" style="font-size: 1.5rem; line-height: 1;">
               <% full_stars = @average_rating.round.to_i %>
               <% empty_stars = 5 - full_stars %>
 
@@ -30,11 +42,14 @@
               <% end %>
               (<%= @reviews.count %>)
             </div>
-          <% if user_signed_in? %>
-            <%= link_to "Write a Review", compose_reviews_path(@movie.name), class: "btn btn-primary d-inline-block" %>
-          <% else %>
-            <%= link_to "Log in to write a review", new_user_session_path(return_to: request.fullpath), class: "btn btn-outline-secondary mt-3 d-inline-block" %>
-          <% end %>
+
+            <!-- Review Button -->
+            <% if user_signed_in? %>
+              <%= link_to "Write a Review", compose_reviews_path(@movie.name), class: "btn btn-primary btn-sm" %>
+            <% else %>
+              <%= link_to "Log in to write a review", new_user_session_path(return_to: request.fullpath), class: "btn btn-outline-secondary btn-sm" %>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>

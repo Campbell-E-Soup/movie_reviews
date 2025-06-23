@@ -51,8 +51,8 @@
             <% else %>
               <li class="nav-item">
                 <%= link_to "Sign In", new_user_session_path, 
-                  class: "nav-link #{current_page?(new_user_session_path) ? 'active' : ''}", 
-                  "aria-current": (current_page?(new_user_session_path) ? 'page' : nil) %>
+                  class: "nav-link #{current_page?(new_user_session_path(return_to: root_path)) ? 'active' : ''}", 
+                  "aria-current": (current_page?(new_user_session_path(return_to: root_path)) ? 'page' : nil) %>
               </li>
             <% end %>
           </ul>

@@ -8,10 +8,12 @@
                 <div class="row flex-column flex-md-row g-3 align-items-start">
                     <!-- Poster -->
                     <div class="col-auto">
-                        <% if review.movie.poster.attached? %>
-                            <%= image_tag review.movie.poster.variant(resize_to_limit: [128, 192]), class: "border shadow", alt: "Movie Poster" %>
-                        <% else %>
-                            <%= image_tag 'placeholder.png', size: "128x192", class: "border shadow", alt: "No Poster Available" %>
+                        <%= link_to movie_path(review.movie) do %>
+                            <% if review.movie.poster.attached? %>
+                                <%= image_tag review.movie.poster.variant(resize_to_limit: [128, 192]), class: "border shadow", alt: "Movie Poster" %>
+                            <% else %>
+                                <%= image_tag 'placeholder.png', size: "128x192", class: "border shadow", alt: "No Poster Available" %>
+                            <% end %>
                         <% end %>
                     </div>
                     <!-- Movie Details -->

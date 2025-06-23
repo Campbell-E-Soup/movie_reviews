@@ -69,7 +69,7 @@ gem "mini_magick", "~> 5.2"
 gem "bootstrap", "~> 5.3"
 gem "sassc-rails"
 
-# Auth with Devise
+# Authentication with Devise
 gem 'devise'
 
 gem 'bcrypt', '~> 3.1.7'

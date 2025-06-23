@@ -9,9 +9,16 @@ class MoviesController < ApplicationController
         else
             @average_rating = 0
         end
+
+        @genres = @movie.genres
     end
 
     def index
-        @movies = Movie.all
+        if params[:genre_name]
+            @genre = Genre.find_by!(name: params[:genre_name])
+            @movies = @genre.movies.includes(:genres)
+        else
+            @movies = Movie.includes(:genres).all
+        end
     end
 end
