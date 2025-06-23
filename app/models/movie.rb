@@ -1,5 +1,5 @@
 class Movie < ApplicationRecord
-  has_one_attached :poster
+  has_one_attached :poster, dependent: :purge_later
 
   has_and_belongs_to_many :genres
 

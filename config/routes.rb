@@ -8,7 +8,10 @@ Rails.application.routes.draw do
   
   root "home#index"
 
-  resources :users, param: :username, only: [:show]
+  # resources :users, param: :username, only: [:show]
+  resources :users, param: :username, only: [:show] do
+    patch :update_profile_picture, on: :member
+  end
   resources :movies, param: :name, only: [:show]
   resources :movies, only: [:index]
 

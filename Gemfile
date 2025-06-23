@@ -73,3 +73,7 @@ gem "sassc-rails"
 gem 'devise'
 
 gem 'bcrypt', '~> 3.1.7'
+
+# The TMDB API
+gem 'themoviedb-api'
+gem 'dotenv-rails'

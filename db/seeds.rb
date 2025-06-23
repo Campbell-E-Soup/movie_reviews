@@ -1,48 +1,125 @@
+Review.destroy_all
 Movie.destroy_all
+User.destroy_all
 Genre.destroy_all
 
 
-# Create genres
-genres = %w[Action Comedy Drama Horror Sci-Fi Fantasy Romance].map do |name|
-  Genre.create!(name: name)
+# Seed Genres
+puts "Seeding genres..."
+GENRE_MAP = Tmdb::Genre.movie_list.index_by(&:id)
+
+GENRE_MAP.each_value do |genre|
+  Genre.find_or_create_by!(name: genre.name)
 end
 
-# Helper to load poster file
-def load_poster(filename)
+puts "Genres seeded: #{Genre.count}"
+
+# Seed Movies
+def fetch_and_seed_movie(title)
+  results = Tmdb::Search.movie(title).results
+  return if results.empty?
+
+  data = results.first
+  return if Movie.exists?(name: data.title)
+
+  puts "Seeding movie: #{data.title}"
+
+  movie = Movie.create!(
+    name: data.title,
+    description: Tmdb::Movie.detail(data.id).overview,
+    release_year: data.release_date&.to_date&.year
+  )
+
+  genre_names = data.genre_ids.map { |id| GENRE_MAP[id]&.name }.compact
+  movie.genres = Genre.where(name: genre_names)
+
+  if data.poster_path
+    file = URI.open("https://image.tmdb.org/t/p/w500#{data.poster_path}")
+    movie.poster.attach(io: file, filename: "#{data.title.parameterize}.jpg", content_type: "image/jpeg")
+  end
+end
+
+# List of movies to seed
+titles = [
+  "Inception", "The Godfather", "The Wizard of Oz", "Grand Hotel", "Rocky",
+  "Indiana Jones and the Last Crusade", "Star Wars: Episode IV - A New Hope",
+  "Battlefield Earth", "The Count of Monte Cristo", "The Avengers", "Nope",
+  "Iron Man", "The Holiday", "The Lord of the Rings: The Return of the King"
+]
+
+titles.each { |title| fetch_and_seed_movie(title) }
+
+puts "Finished seeding #{Movie.count} movies."
+
+# Create Users
+
+puts "Seeding users..."
+
+users = [
+  { username: "campbellesoup", email: "campbellesoup@example.com", pfp: "souppfp.jpeg", password: "password123"},
+  { username: "moviedave", email: "moviedave@example.com", password: "password123"},
+  { username: "Cinema Or Not", email: "cinemaornot@example.com", pfp: "cinema.jpg", password: "cinema@123"}
+]
+
+# Helper to load pfps file
+def load_photo(filename)
   File.open(Rails.root.join("db/seeds/images/#{filename}"))
 end
 
-# Create movie data
-movies = [
-  { name: "Inception", description: "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O., but his tragic past may doom the project and his team to disaster.", release_year: 2010, genre_names: ["Action", "Sci-Fi"], poster: "inception.jpg" },
-  { name: "The Godfather", description: "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.", release_year: 1972, genre_names: ["Drama"], poster: "godfather.jpg" },
-  { name: "The Wizard of Oz", description: "Young Dorothy Gale and her dog Toto are swept away by a tornado from their Kansas farm to the magical Land of Oz and embark on a quest with three new friends to see the Wizard, who can return her to her home and fulfill the others' wishes.", release_year: 1939, genre_names: ["Fantasy"], poster: "wizardofoz.jpg" },
-  { name: "Grand Hotel", description: "A group of very different individuals staying at a luxurious hotel in Berlin deal with each of their respective dramas.", release_year: 1932, genre_names: ["Drama"], poster: "grandhotel.jpg" },
-  { name: "Rocky", description: "A small-time Philadelphia boxer gets a supremely rare chance to fight the world heavyweight champion in a bout in which he strives to go the distance for his self-respect.", release_year: 1976, genre_names: ["Drama"], poster: "rocky.jpg" },
-  { name: "Indiana Jones and the Last Crusade", description: "In 1938, after his father goes missing while pursuing the Holy Grail, Indiana Jones finds himself up against the Nazis again to stop them from obtaining its powers.", release_year: 1989, genre_names: ["Action"], poster: "indianajones.png" },
-  { name: "Star Wars: Episode IV - A New Hope", description: "Luke Skywalker joins forces with a Jedi Knight, a cocky pilot, a Wookiee and two droids to save the galaxy from the Empire's world-destroying battle station, while also attempting to rescue Princess Leia from the mysterious Darth Vader.", release_year: 1977, genre_names: ["Action","Sci-Fi"], poster: "anewhope.jpg" },
-  { name: "Battlefield Earth", description: "It's the year 3000 A.D., and the Earth is lost to the alien race of Psychlos. Humanity is enslaved by these gold-thirsty tyrants, who are unaware that their 'man-animals' are about to ignite the rebellion of a lifetime.", release_year: 2000, genre_names: ["Action","Sci-Fi"], poster: "battlefieldearth.jpg" },
-  { name: "The Count of Monte Cristo", description: 'A young man, falsely imprisoned by his jealous "friend", escapes and uses a hidden treasure to exact his revenge.', release_year: 2002, genre_names: ["Drama"], poster: "countofmontecristo.jpg" },
-  { name: "The Avengers", description: "Earth's mightiest heroes must come together and learn to fight as a team if they are going to stop the mischievous Loki and his alien army from enslaving humanity.", release_year: 2012, genre_names: ["Action","Sci-Fi"], poster: "avengers.jpg" },
-  { name: "Nope", description: "The residents of a lonely gulch in inland California bear witness to an uncanny and chilling phenomenon.", release_year: 2022, genre_names: ["Horror","Sci-Fi"], poster: "nope.jpg" },
-  { name: "Iron Man", description: "After being held captive in an Afghan cave, billionaire engineer Tony Stark creates a unique weaponized suit of armor to fight evil.", release_year: 2008, genre_names: ["Action","Sci-Fi"], poster: "ironman.jpg" },
-  { name: "The Holiday", description: "Amanda lives in LA and is a movie trailer editor. Iris lives in Surrey and is a journalist. The two decide to swap houses for two weeks at Christmas - both trying to forget their troubled love lives, until love finds them anyways.", release_year: 2006, genre_names: ["Romance","Comedy"], poster: "theholiday.jpg" },
-  { name: "The Lord of the Rings: The Return of the King", description: "Gandalf and Aragorn lead the World of Men against Sauron's army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.", release_year: 2003, genre_names: ["Fantasy","Action"], poster: "lotrreturnoftheking.jpg" }
+users.each do |data|
+  puts "Seeding user: #{data[:username]}"
+  user = User.create!(
+    username: data[:username],
+    email: data[:email],
+    password: data[:password],
+    password_confirmation: data[:password]
+  )
+
+  if data[:pfp]
+    path = Rails.root.join("db/seeds/images/#{data[:pfp]}")
+    if File.exist?(path)
+      user.profile_picture.attach(io: load_photo(data[:pfp]), filename: data[:pfp])
+    end
+  end
+end
+
+puts "Finished seeding #{User.count} users."
+
+# Create Reviews
+reviews = [
+  {user: "Cinema Or Not",movie: "Grand Hotel",rating: 4,text: "Cinema."},
+  {user: "moviedave",movie: "Grand Hotel",rating: 2,text: "it was ok i guess"},
+  {user: "campbellesoup",movie: "The Avengers",rating: 2,text: "I used to really like this movie when I came out. But my brothers watched this movie so much when we got it on DVD now whenever I think about watching I get nauseous. 2/5"},
+  {user: "moviedave", movie: "The Avengers", rating: 5, text: "The best superhero movie."},
+  {user: "moviedave", movie: "Battlefield Earth", rating: 5, text: "THE BEST MOVIE EVER MADE FIGHT ME"},
+  {user: "campbellesoup", movie: "Battlefield Earth", rating: 1, text: "I wish I could give it a zero."},
+  {user: "Cinema Or Not", movie: "Battlefield Earth", rating: 1, text: "Not Cinema"},
+  {user: "campbellesoup", movie: "The Holiday", rating: 3, text: "It is my mom's favorite movie, it is ok."},
+  {user: "Cinema Or Not", movie: "The Godfather", rating: 5, text: "Absolute Cinema"},
+  {user: "Cinema Or Not", movie: "Nope", rating: 4, text: "Cinema"},
+  {user: "campbellesoup", movie: "Iron Man", rating: 4, text: "With this and Batman Begins 2008 was a very good year for superhero movies."},
+  {user: "moviedave", movie: "The Lord of the Rings: The Return of the King", rating: 2, text: "Not long enough."},
+  {user: "moviedave", movie: "Inception", rating: 2, text: "While a visually and conceptually interesting film it falls short compared to Nolan's later work. While the ending is very good I find that the general public's misinterpretation of it has devalued the emotional meaning of the ending. OK now back to brainrot.\nHurr Durr Tenet better."},
+  {user: "moviedave", movie: "The Godfather", rating: 2, text: "It insists upon itself."},
+  {user: "Cinema Or Not", movie: "Rocky", rating: 4, text: "Cinema"},
+  {user: "Cinema Or Not", movie: "Nope", rating: 4, text: "Cinema"},
+  {user: "campbellesoup",movie: "Grand Hotel",rating: 5,text: "One of my favorite films from the Golden Age of Hollywood."}
 ]
 
-movies.each do |movie_data|
-  movie = Movie.create!(
-    name: movie_data[:name],
-    description: movie_data[:description],
-    release_year: movie_data[:release_year]
-  )
+reviews.each do |data|
+  user = User.find_by(username: data[:user])
+  movie = Movie.find_by(name: data[:movie])
 
-  movie.genres = genres.select { |g| movie_data[:genre_names].include?(g.name) }
+  next unless user && movie # skip if either not found
 
-  # Attach poster using Active Storage
-  movie.poster.attach(
-    io: load_poster(movie_data[:poster]),
-    filename: movie_data[:poster],
-    content_type: "image/jpeg"
+  Review.create!(
+    user: user,
+    movie: movie,
+    rating: data[:rating],
+    text: data[:text]
   )
+  puts "Seeded #{data[:user]}'s review of #{data[:movie]}"
 end
+
+puts "Finished seeding #{Review.count} reviews."
+puts "All done!"

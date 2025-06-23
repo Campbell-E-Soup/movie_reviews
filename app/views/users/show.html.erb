@@ -17,6 +17,17 @@
         <p class="text-muted mb-0">Date joined: <%= @user.join_date.strftime('%B %d, %Y') if @user.join_date %></p>
       </div>
 
+      <!-- Upload Button (only for current user) -->
+      <% if current_user == @user %>
+        <div class="col-auto ms-auto">
+          <%= form_with model: @user, url: update_profile_picture_user_path(@user), method: :patch, html: { multipart: true } do |f| %>
+            <div class="d-flex align-items-center">
+              <%= f.file_field :profile_picture, class: "form-control form-control-sm", accept: "image/*" %>
+              <%= f.submit "Add a Profile Picture", class: "btn btn-sm btn-outline-primary ms-2" %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
     </div>
   </div>
   <% @reviews.each do |review| %>
@@ -31,7 +42,6 @@
                             <%= image_tag 'placeholder.png', size: "128x192", class: "border shadow", alt: "No Poster Available" %>
                         <% end %>
                     </div>
-                    <!-- Movie Details -->
                     <div class="col">
                         <!-- The Review -->
                          <div class="row g-3">
