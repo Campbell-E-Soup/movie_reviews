@@ -16,10 +16,22 @@ Rails.application.routes.draw do
   resources :movies, only: [:index]
   get "movies/genre/:genre_name", to: "movies#index", as: "genre_movies"
 
-  resources :reviews, only: [:create, :update, :show] do
+  resources :reviews, only: [:create, :update, :destroy] do
     collection do
-      get 'compose/:name', to: 'reviews#compose', as: :compose
-      get 'edit/:name', to: 'reviews#edit_by_movie', as: :edit_by_movie
+      get 'compose/:name', action: :compose, as: :compose
+      get 'edit_by_movie/:name', action: :edit_by_movie, as: :edit_by_movie
     end
+
+    member do
+      post 'delete_via_link'
+    end
+  end
+
+  namespace :admin do
+    get "/", to: "dashboard#index", as: :dashboard
+    get "users", to: "dashboard#users"
+    get "movies", to: "dashboard#movies"
+    get "reviews", to: "dashboard#reviews"
+    post "delete_movie/:id", to: "dashboard#delete_movie_via_link", as: :delete_movie_via_link
   end
 end

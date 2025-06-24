@@ -56,6 +56,7 @@ puts "Finished seeding #{Movie.count} movies."
 puts "Seeding users..."
 
 users = [
+  { username: "admin", email: "admin@example.com", password: "admin123", admin: true},
   { username: "campbellesoup", email: "campbellesoup@example.com", pfp: "souppfp.jpeg", password: "password123"},
   { username: "moviedave", email: "moviedave@example.com", password: "password123"},
   { username: "Cinema Or Not", email: "cinemaornot@example.com", pfp: "cinema.jpg", password: "cinema@123"}
@@ -68,11 +69,12 @@ end
 
 users.each do |data|
   puts "Seeding user: #{data[:username]}"
-  user = User.create!(
+  user = User.new(
     username: data[:username],
     email: data[:email],
     password: data[:password],
-    password_confirmation: data[:password]
+    password_confirmation: data[:password],
+    admin: data[:admin] || false
   )
 
   if data[:pfp]
@@ -81,6 +83,8 @@ users.each do |data|
       user.profile_picture.attach(io: load_photo(data[:pfp]), filename: data[:pfp])
     end
   end
+
+  user.save
 end
 
 puts "Finished seeding #{User.count} users."
@@ -99,7 +103,8 @@ reviews = [
   {user: "Cinema Or Not", movie: "Nope", rating: 4, text: "Cinema"},
   {user: "campbellesoup", movie: "Iron Man", rating: 4, text: "With this and Batman Begins 2008 was a very good year for superhero movies."},
   {user: "moviedave", movie: "The Lord of the Rings: The Return of the King", rating: 2, text: "Not long enough."},
-  {user: "moviedave", movie: "Inception", rating: 2, text: "While a visually and conceptually interesting film it falls short compared to Nolan's later work. While the ending is very good I find that the general public's misinterpretation of it has devalued the emotional meaning of the ending. OK now back to brainrot.\nHurr Durr Tenet better."},
+  {user: "Cinema Or Not", movie: "The Lord of the Rings: The Return of the King", rating: 5, text: "Absolute Cinema."},
+  {user: "moviedave", movie: "Inception", rating: 3, text: "While a visually and conceptually interesting film it falls short compared to Nolan's later work. While the ending is very good I find that the general public's misinterpretation of it has devalued the emotional meaning of the ending. OK now back to brainrot.\nHurr Durr Tenet better."},
   {user: "moviedave", movie: "The Godfather", rating: 2, text: "It insists upon itself."},
   {user: "Cinema Or Not", movie: "Rocky", rating: 4, text: "Cinema"},
   {user: "Cinema Or Not", movie: "Nope", rating: 4, text: "Cinema"},

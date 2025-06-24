@@ -1,0 +1,48 @@
+<% @movies.each do |movie| %>
+  <div class="card p-3 pt-2 shadow mb-3">
+    <div class="row g-3 align-items-start">
+      <div class="row flex-column flex-md-row g-3 align-items-start">
+        
+        <!-- Poster -->
+        <div class="col-auto">
+          <% if movie.poster.attached? %>
+            <%= image_tag movie.poster.variant(resize_to_limit: [128, 192]), class: "border shadow", alt: "Movie Poster" %>
+          <% else %>
+            <%= image_tag 'placeholder.png', size: "128x192", class: "border shadow", alt: "No Poster Available" %>
+          <% end %>
+        </div>
+
+        <!-- Details -->
+        <div class="col">
+          <!-- Title & Buttons -->
+          <div class="d-flex justify-content-between align-items-start flex-wrap">
+            <div>
+              <h3 class="mb-0 fw-bold"><%= movie.name %></h3>
+              <% if movie.release_year.present? %>
+                <h5 class="text-muted">(<%= movie.release_year %>)</h5>
+              <% end %>
+            </div>
+
+            <!-- Buttons -->
+            <div class="d-flex gap-2">
+              <%= link_to "Edit", "#", class: "btn btn-sm btn-outline-primary" %>
+              <%= button_to "Delete", admin_delete_movie_via_link_path(movie), method: :post, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-outline-danger" %>
+            </div>
+          </div>
+
+          <!-- Genres -->
+          <div class="mt-2 d-flex flex-wrap gap-2">
+            <% movie.genres.each do |genre| %>
+              <%= link_to genre.name, genre_movies_path(genre_name: genre.name), class: "btn btn-outline-dark btn-sm-tag" %>
+            <% end %>
+          </div>
+
+          <!-- Description -->
+          <% if movie.description.present? %>
+            <p class="text-muted mt-2"><%= movie.description %></p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

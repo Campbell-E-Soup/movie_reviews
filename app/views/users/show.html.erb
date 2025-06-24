@@ -64,12 +64,15 @@
                                       </a>
                                     </h3>
 
-                                    <% if current_user == @user %>
-                                      <div class="d-flex gap-2">
+                                    <div class="d-flex gap-2">
+                                      <% if current_user == review.user %>
                                         <%= link_to "Edit", edit_by_movie_reviews_path(review.movie.name), class: "btn btn-sm btn-outline-primary" %>
-                                        <%= link_to "Delete", "#", method: :delete, class: "btn btn-sm btn-outline-danger" %>
-                                      </div>
-                                    <% end %>
+                                      <% end %>
+
+                                      <% if current_user == review.user || current_user.admin? %>
+                                        <%= button_to "Delete", delete_via_link_review_path(review), method: :post, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-outline-danger" %>
+                                      <% end %>
+                                    </div>
                                   </div>
                                 <div class="review-rating" style="font-size: 1.5rem; line-height: 1;">
                                     <% full_stars = review.rating.to_i %>

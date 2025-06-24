@@ -1,0 +1,100 @@
+<div class="container mt-4">
+  <div class="row g-4 mb-2">
+
+    <!-- Total Reviews -->
+    <div class="col-md-4">
+        <a href="<%= admin_reviews_path %>" class="text-decoration-none">
+            <div class="card shadow-sm h-100" style="cursor: pointer;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Total Reviews</h5>
+                    <p class="display-6"><%= @review_count %></p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Total Movies -->
+    <div class="col-md-4">
+        <a href="<%= admin_movies_path %>" class="text-decoration-none">
+            <div class="card shadow-sm h-100" style="cursor: pointer;">
+            <div class="card-body text-center">
+                <h5 class="card-title">Total Movies</h5>
+                <p class="display-6"><%= @movie_count %></p>
+            </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Total Users -->
+        <div class="col-md-4">
+            <a href="<%= admin_users_path %>" class="text-decoration-none">
+                <div class="card shadow-sm h-100" style="cursor: pointer;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Total Users</h5>
+                        <p class="display-6"><%= @user_count %></p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="row g-4">
+    <!-- Top Movie -->
+    <% if @top_move %>
+        <div class="col-md">
+        <div class="card shadow-sm p-1 text-center h-100">
+            <div class="card-header">Most Reviewed Movie</div>
+            <div class="card-body">
+            <a href="<%= movie_path(@top_move) %>">
+                <% if @top_move.poster.attached? %>
+                <%= image_tag @top_move.poster.variant(resize_to_limit: [200, 300]), class: "img-fluid rounded shadow", alt: @top_move.name %>
+                <% else %>
+                <div class="text-muted">No Poster</div>
+                <% end %>
+            </a>
+            <h5 class="mt-2"><%= @top_move.name %></h5>
+            </div>
+        </div>
+        </div>
+    <% end %>
+
+    <!-- Worst Movie -->
+    <% if @worst_movie %>
+        <div class="col-md">
+        <div class="card shadow-sm p-1 text-center h-100">
+            <div class="card-header">Worst Reviewed Movie</div>
+            <div class="card-body">
+            <a href="<%= movie_path(@worst_movie) %>">
+                <% if @worst_movie.poster.attached? %>
+                <%= image_tag @worst_movie.poster.variant(resize_to_limit: [200, 300]), class: "img-fluid rounded shadow", alt: @worst_movie.name %>
+                <% else %>
+                <div class="text-muted">No Poster</div>
+                <% end %>
+            </a>
+            <h5 class="mt-2"><%= @worst_movie.name %></h5>
+            </div>
+        </div>
+        </div>
+    <% end %>
+
+    <!-- Top User -->
+    <% if @top_user %>
+        <div class="col-md">
+        <div class="card shadow-sm p-1 text-center h-100">
+            <div class="card-header">Most Active User</div>
+            <div class="card-body">
+            <a href="<%= user_path(@top_user) %>">
+                <% if @top_user.profile_picture.attached? %>
+                `<%= image_tag @top_user.profile_picture.variant(resize_to_fill: [120, 120]), class: "rounded-circle border shadow", alt: @top_user.username %>
+                <% else %>
+                <div class="text-muted">
+                    <%= image_tag 'pfp.png', alt: 'Profile Picture', size: "120x120", class: "rounded-circle border" %>
+                </div>
+                <% end %>
+            </a>
+            <h5 class="mt-2"><%= @top_user.username %></h5>
+            </div>
+        </div>
+        </div>
+    <% end %>
+    </div>
+</div>

@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_many :reviews, dependent: :destroy
   has_one_attached :profile_picture, dependent: :purge_later
 
   devise :database_authenticatable, :registerable,

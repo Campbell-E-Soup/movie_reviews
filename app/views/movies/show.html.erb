@@ -67,9 +67,20 @@
               <% end %>
             </div>
             <div class="col mb-1">
-              <a class="nav-link p-0 text-dark text-decoration-none" href="<%= user_path(review.user) %>">
-                <h3 class="mb-0"><%= review.user.username %></h3>
-              </a>
+              <div class="d-flex justify-content-between align-items-center flex-wrap mb-1">
+                <a class="nav-link p-0 text-dark text-decoration-none" href="<%= user_path(review.user) %>">
+                  <h3 class="mb-0"><%= review.user.username %></h3>
+                </a>
+                <div class="d-flex gap-2">
+                  <% if current_user == review.user %>
+                    <%= link_to "Edit", edit_by_movie_reviews_path(review.movie.name), class: "btn btn-sm btn-outline-primary" %>
+                  <% end %>
+
+                  <% if current_user == review.user || current_user.admin? %>
+                    <%= button_to "Delete", delete_via_link_review_path(review), method: :post, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-outline-danger" %>
+                  <% end %>
+                </div>
+              </div>
               <div class="review-rating" style="font-size: 1.5rem; line-height: 1;">
                 <% full_stars = review.rating.to_i %>
                 <% empty_stars = 5 - full_stars %>
