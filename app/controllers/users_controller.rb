@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     @reviews = Review.where(user_id: @user.id).includes(:movie).order(created_at: :desc)
   end
 
-  before_action :set_user, only: [:show, :update_profile_picture]
+  before_action :set_user, only: [ :show, :update_profile_picture ]
 
   def update_profile_picture
     if params[:user]&.[](:profile_picture).present?

@@ -8,5 +8,4 @@ class Users::SessionsController < Devise::SessionsController
     session.delete(:user_return_to)
     super
   end
-  
 end

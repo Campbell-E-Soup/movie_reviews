@@ -70,10 +70,10 @@ gem "bootstrap", "~> 5.3"
 gem "sassc-rails"
 
 # Authentication with Devise
-gem 'devise'
+gem "devise"
 
-gem 'bcrypt', '~> 3.1.7'
+gem "bcrypt", "~> 3.1.7"
 
 # The TMDB API
-gem 'themoviedb-api'
-gem 'dotenv-rails'
+gem "themoviedb-api"
+gem "dotenv-rails"

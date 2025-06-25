@@ -1,11 +1,11 @@
 class ReviewsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_review, only: [:update, :delete_via_link]
-  before_action :authorize_destroy!, only: [:delete_via_link]
+  before_action :set_review, only: [ :update, :delete_via_link ]
+  before_action :authorize_destroy!, only: [ :delete_via_link ]
 
   def compose
     @movie = Movie.find_by!(name: params[:name])
-    
+
     # Redirect if user already reviewed this movie
     if existing_review = Review.find_by(user: current_user, movie: @movie)
       redirect_to edit_by_movie_reviews_path(@movie.name) and return
