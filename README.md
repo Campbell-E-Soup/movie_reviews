@@ -5,7 +5,7 @@ A simple app to store and review movies.
 - **SQLite** used as the development database for quick setup and portability.
 - **Devise** handles user authentication, registration, and session management.
 - **Active Storage** supports uploading and displaying movie posters and user profile pictures.
-- **TMDb API** integration to fetch movie details, posters, and metadata.  
+- **TMDb API** integration to fetch movie details and posters.  
   See: [TMDb Developer Docs](https://developer.themoviedb.org/docs/getting-started)
 - **Admin Panel** with role-based access:
   - Manage users, movies, and reviews
