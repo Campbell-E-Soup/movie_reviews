@@ -121,4 +121,24 @@ This app uses Rails' encrypted credentials, which require a `config/master.key` 
 Create an .env file with:
 ```.env
 TMDB_API_KEY=your_tmdb_api_key_here
-```
+```  
+---
+### Using the Website
+To use the app you will need to use one of the following accounts or create your own:  
+  
+**admin**  
+Email: `admin@example.com`  
+Password: `admin123`  
+Admin: ✅  
+
+**campbellesoup**  
+Email: `campbellesoup@example.com`  
+Password: `password123`  
+
+**moviedave**  
+Email: `moviedave@example.com`  
+Password: `password123`  
+
+**Cinema Or Not**  
+Email: `cinemaornot@example.com`  
+Password: `cinema@123` 
