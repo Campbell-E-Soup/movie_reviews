@@ -1,5 +1,5 @@
-# Movie Review App
-A simple app to store and review movies.
+# Movie Review Website
+A simple app to store and write movie reviews
 ## Features
 
 - **SQLite** used as the development database for quick setup and portability.
