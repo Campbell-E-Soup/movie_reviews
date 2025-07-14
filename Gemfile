@@ -63,7 +63,7 @@ group :test do
 end
 
 gem "image_processing", "~> 1.14"
-gem "mini_magick", "~> 5.2"
+gem "mini_magick", "~> 5.3"
 
 # Bootstrap
 gem "bootstrap", "~> 5.3"
